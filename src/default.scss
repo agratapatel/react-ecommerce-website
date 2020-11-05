@@ -1,0 +1,33 @@
+html {
+    font-size: 10px;
+}
+
+html,
+body {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    line-height: 1;
+}
+
+a{
+    text-decoration: none;
+}
+
+a, a:hover {
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
