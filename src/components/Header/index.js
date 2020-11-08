@@ -1,17 +1,27 @@
 import React  from 'react';
 import './styles.scss';
+import { Link } from 'react-router-dom';
 
 const Header = props => {
     return (
-        <header className="header">
+      <header className="header">
         <div className="wrap">
-            <div className="logo">
-            <h1>💩</h1>
-            </div>
-        </div>
+          <div className="logo">
+            <Link to="/">
+              <h1>💩</h1>
+            </Link>
+          </div>
 
-        </header>
-    )
+          <div className="callToActions">
+            <ul>
+              <li>
+                <Link to="/registration">Register</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+    );
 }
 
 export default Header;
