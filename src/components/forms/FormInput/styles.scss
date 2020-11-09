@@ -1,0 +1,15 @@
+.formRow {
+
+    input {
+        display: block;
+        width: 100%;
+        font-size: 1.5rem;
+        line-height: 1;
+        font-weight: 400;
+        text-align: left;
+        padding: 16px 8px;
+        margin: 8px auto;
+        border: 1px solid rgba($color: #000000, $alpha: 0.2);
+        outline: none;
+    }
+}
