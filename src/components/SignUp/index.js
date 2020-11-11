@@ -3,6 +3,7 @@ import './styles.scss';
 
 import { auth, handleUserProfile } from './../../firebase/utils';
 
+import AuthWrapper  from './../AuthWrapper';
 import FormInput from './../forms/FormInput';
 import Button from './../forms/Button';
 
@@ -78,62 +79,63 @@ class SignUp extends Component {
       errors,
     } = this.state;
 
+    const configAuthWrapper = {
+      headline: "Hello New Customer",
+    };
+
+
     return (
-      <div className="signup">
-        <div className="wrap">
-          <h2>Welcome new customer</h2>
+      <AuthWrapper {...configAuthWrapper}>
+        {errors.length > 0 && (
+          <ul>
+            {errors.map((err, index) => {
+              return <li key={index}>{err}</li>;
+            })}
+          </ul>
+        )}
 
-          {errors.length > 0 && (
-            <ul>
-              {errors.map((err, index) => {
-                return <li key={index}>{err}</li>;
-              })}
-            </ul>
-          )}
+        <div classname="formWrap">
+          <form onSubmit={this.handleFormSubmit}>
+            <p>Your name</p>
+            <FormInput
+              type="text"
+              name="displayName"
+              value={displayName}
+              placeholder="Knock knock, who's there?"
+              onChange={this.handleChange}
+            />
 
-          <div classname="formWrap">
-            <form onSubmit={this.handleFormSubmit}>
-              <p>Your name</p>
-              <FormInput
-                type="text"
-                name="displayName"
-                value={displayName}
-                placeholder="Knock knock, who's there?"
-                onChange={this.handleChange}
-              />
+            <p>Your email</p>
+            <FormInput
+              type="email"
+              name="email"
+              value={email}
+              placeholder="johndoe@example.com"
+              onChange={this.handleChange}
+            />
 
-              <p>Your email</p>
-              <FormInput
-                type="email"
-                name="email"
-                value={email}
-                placeholder="johndoe@example.com"
-                onChange={this.handleChange}
-              />
+            <p>Enter your Password</p>
+            <FormInput
+              type="password"
+              name="password"
+              value={password}
+              placeholder="••••••••"
+              onChange={this.handleChange}
+            />
 
-              <p>Enter your Password</p>
-              <FormInput
-                type="password"
-                name="password"
-                value={password}
-                placeholder="••••••••"
-                onChange={this.handleChange}
-              />
+            <p>Confirm Password</p>
+            <FormInput
+              type="password"
+              name="confirmPassword"
+              value={confirmPassword}
+              placeholder="••••••••"
+              onChange={this.handleChange}
+            />
 
-              <p>Confirm Password</p>
-              <FormInput
-                type="password"
-                name="confirmPassword"
-                value={confirmPassword}
-                placeholder="••••••••"
-                onChange={this.handleChange}
-              />
-
-              <Button type="submit">Sign up</Button>
-            </form>
-          </div>
+            <Button type="submit">Sign up</Button>
+          </form>
         </div>
-      </div>
+      </AuthWrapper>
     );
   }
 }

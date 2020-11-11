@@ -40,6 +40,10 @@ a, a:hover {
     transition: all .4s ease-in-out;
 }
 
+ a:hover {
+     text-decoration: underline;
+ }
+
 .main{
     width: 100%;
     height: calc(100% - 6.5rem);
