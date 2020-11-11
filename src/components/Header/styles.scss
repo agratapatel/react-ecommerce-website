@@ -46,6 +46,11 @@
                 colour: black;
                 text-decoration: none;
                 text-transform: uppercase;
+                cursor: pointer;
+            }
+
+             a:hover {
+                text-decoration: underline;
             }
         }
     }
