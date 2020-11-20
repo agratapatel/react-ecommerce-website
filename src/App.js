@@ -17,7 +17,7 @@ import Recovery from "./pages/Recovery";
 import './default.scss';
 
 
-class App extends Component {
+const App = props => {
   
 
   authListener = null;
@@ -45,7 +45,7 @@ class App extends Component {
     this.authListener();
   }
 
-  render() {
+ 
     const { currentUser } = this.props;
 
       return (
@@ -96,7 +96,6 @@ class App extends Component {
         </div>
       );
   }
-}
 
 const mapStateToProps = ({ user }) => ({
   currentUser: user.currentUser

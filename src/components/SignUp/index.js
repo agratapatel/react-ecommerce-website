@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './styles.scss';
 
 import { auth, handleUserProfile } from './../../firebase/utils';
@@ -7,50 +7,36 @@ import AuthWrapper  from './../AuthWrapper';
 import FormInput from './../forms/FormInput';
 import Button from './../forms/Button';
 
-const initialState = {
-    displayName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    errors: []
-};
 
 
-class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ...initialState,
-    };
+const SignUp = props => {
+  const [ displayName, setDisplayName] = useState('');
+  const [ email, setEmail] = useState('');
+  const [ password, setPassword] = useState('');
+  const [ confirmPassword, setConfirmPassword] = useState('');
+  const [ errors, setErrors] = useState([]);
 
-    this.handleChange = this.handleChange.bind(this);
-  }
+  const reset = () => {
+    setDisplayName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setErrors([]);
+  };
+  
 
-  handleChange(e) {
-    const { name, value } = e.target;
-
-    this.setState({
-      [name]: value,
-    });
-  }
-
-  handleFormSubmit = async event => {
+  const handleFormSubmit = async event => {
     event.preventDefault();
-    const { displayName, email, password, confirmPassword } = this.state;
-
+    
     if (password !== confirmPassword) {
       const err = ['Password doesn\'t match'];
-      this.setState({
-        errors: err
-      });
+      setErrors(err);
       return;
     }
 
     if (password.length < 6) {
         const err = ["Password should be more than 6 characters"];
-        this.setState({
-          errors: err,
-        });
+        setErrors(err);
         return;
     }
 
@@ -62,22 +48,14 @@ class SignUp extends Component {
 
       await handleUserProfile(user, { displayName });
 
-      this.setState({
-        ...initialState,
-      });
+     reset();
+
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   }
 
-  render() {
-    const {
-      displayName,
-      email,
-      password,
-      confirmPassword,
-      errors,
-    } = this.state;
+
 
     const configAuthWrapper = {
       headline: "Hello New Customer",
@@ -95,14 +73,14 @@ class SignUp extends Component {
         )}
 
         <div classname="formWrap">
-          <form onSubmit={this.handleFormSubmit}>
+          <form onSubmit={handleFormSubmit}>
             <p>Your name</p>
             <FormInput
               type="text"
               name="displayName"
               value={displayName}
               placeholder="Knock knock, who's there?"
-              onChange={this.handleChange}
+              handleChange={(e) => setDisplayName(e.target.value)}
             />
 
             <p>Your email</p>
@@ -111,7 +89,7 @@ class SignUp extends Component {
               name="email"
               value={email}
               placeholder="johndoe@example.com"
-              onChange={this.handleChange}
+              handleChange={(e) => setEmail(e.target.value)}
             />
 
             <p>Enter your Password</p>
@@ -120,7 +98,7 @@ class SignUp extends Component {
               name="password"
               value={password}
               placeholder="••••••••"
-              onChange={this.handleChange}
+              handleChange={(e) => setPassword(e.target.value)}
             />
 
             <p>Confirm Password</p>
@@ -129,7 +107,7 @@ class SignUp extends Component {
               name="confirmPassword"
               value={confirmPassword}
               placeholder="••••••••"
-              onChange={this.handleChange}
+              handleChange={(e) => setConfirmPassword(e.target.value)}
             />
 
             <Button type="submit">Sign up</Button>
@@ -137,7 +115,6 @@ class SignUp extends Component {
         </div>
       </AuthWrapper>
     );
-  }
 }
 
 export default SignUp;
