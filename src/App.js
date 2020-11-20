@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { auth, handleUserProfile } from './firebase/utils';
 import { setCurrentUser } from './redux/User/user.actions';
+
+//hoc
+import WithAuth from './hoc/withAuth';
 
 //layouts
 import MainLayout from './layouts/MainLayout';
@@ -14,19 +17,18 @@ import Homepage from './pages/Homepage';
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Recovery from "./pages/Recovery";
+import Dashboard from './pages/Dashboard'
 import './default.scss';
 
 
 const App = props => {
   
+    const { setCurrentUser, currentUser } = props;
 
-  authListener = null;
+  useEffect(() => {
+    
 
-  componentDidMount() {
-    const { setCurrentUser } = this.props;
-
-
-    this.authListener = auth.onAuthStateChanged(async userAuth => {
+    const authListener = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await handleUserProfile(userAuth);
         userRef.onSnapshot(snapshot => {
@@ -39,14 +41,13 @@ const App = props => {
 
       setCurrentUser(userAuth);
     });
-  }
 
-  componentWillUnmount() {
-    this.authListener();
-  }
 
- 
-    const { currentUser } = this.props;
+    return () => {
+      authListener();
+    };
+  }, [])
+   
 
       return (
         <div className="App">
@@ -62,10 +63,7 @@ const App = props => {
             />
             <Route
               path="/registration"
-              render={() =>
-                currentUser ? (
-                  <Redirect to="/" />
-                ) : (
+              render={() => (
                   <MainLayout>
                     <Registration />
                   </MainLayout>
@@ -74,10 +72,7 @@ const App = props => {
             />
             <Route
               path="/login"
-              render={() =>
-                currentUser ? (
-                  <Redirect to="/" />
-                ) : (
+              render={() => (
                   <MainLayout>
                     <Login />
                   </MainLayout>
@@ -87,9 +82,20 @@ const App = props => {
             <Route
               path="/recovery"
               render={() => (
+                <MainLayout>
+                  <Recovery />
+                </MainLayout>
+              )}
+            />
+
+            <Route
+              path="/dashboard"
+              render={() => (
+                <WithAuth>
                   <MainLayout>
-                    <Recovery />
+                    <Dashboard />
                   </MainLayout>
+                </WithAuth>
               )}
             />
           </Switch>
