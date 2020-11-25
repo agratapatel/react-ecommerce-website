@@ -27,7 +27,7 @@ const SignIn = props => {
       dispatch(resetAllAuthForms());
       props.history.push("/");
     }
-  }, [signInSuccess]);
+  }, [dispatch, props.history, signInSuccess]);
 
   const resetForm = () => {
     setEmail('');

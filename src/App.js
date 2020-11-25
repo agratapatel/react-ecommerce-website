@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 import { auth, handleUserProfile } from './firebase/utils';
 import { setCurrentUser } from './redux/User/user.actions';
 
@@ -45,7 +45,7 @@ const App = props => {
     return () => {
       authListener();
     };
-  }, [])
+  }, [dispatch])
    
 
       return (
